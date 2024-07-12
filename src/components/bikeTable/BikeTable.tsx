@@ -12,10 +12,16 @@ export type Bike = {
   Year: number;
 };
 
+type SortConfig = {
+  key: keyof Bike;
+  direction: "ascending" | "descending";
+};
+
 const BikeTable = () => {
   const [bikes, setBikes] = useState<Bike[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredBikes, setFilteredBikes] = useState<Bike[]>([]);
+  const [sortConfig, setSortConfig] = useState<SortConfig | null>(null);
 
   useEffect(() => {
     const fetchDataFromAPI = async () => {
@@ -35,15 +41,46 @@ const BikeTable = () => {
   }, []);
 
   useEffect(() => {
-    setFilteredBikes(
-      bikes.filter(
-        (bike) =>
-          bike.Make.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          bike.Model.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          bike.Terrain.toLowerCase().includes(searchTerm.toLowerCase())
-      )
+    const sortedBikes = bikes.filter(
+      (bike) =>
+        bike.Make.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        bike.Model.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        bike.Terrain.toLowerCase().includes(searchTerm.toLowerCase())
     );
-  }, [searchTerm, bikes]);
+
+    if (sortConfig !== null) {
+      sortedBikes.sort((a, b) => {
+        if (a[sortConfig.key] < b[sortConfig.key]) {
+          return sortConfig.direction === "ascending" ? -1 : 1;
+        }
+        if (a[sortConfig.key] > b[sortConfig.key]) {
+          return sortConfig.direction === "ascending" ? 1 : -1;
+        }
+        return 0;
+      });
+    }
+
+    setFilteredBikes(sortedBikes);
+  }, [searchTerm, bikes, sortConfig]);
+
+  const requestSort = (key: keyof Bike) => {
+    let direction: "ascending" | "descending" = "ascending";
+    if (
+      sortConfig &&
+      sortConfig.key === key &&
+      sortConfig.direction === "ascending"
+    ) {
+      direction = "descending";
+    }
+    setSortConfig({ key, direction });
+  };
+
+  const getSortDirection = (key: keyof Bike) => {
+    if (!sortConfig || sortConfig.key !== key) {
+      return "";
+    }
+    return sortConfig.direction === "ascending" ? "↑" : "↓";
+  };
 
   return (
     <div className='container mx-auto p-6 bg-gradient-to-r from-purple-100 to-blue-100 rounded-lg shadow-xl'>
@@ -58,17 +95,17 @@ const BikeTable = () => {
           />
           <button
             className='
-  px-5 py-2
-  bg-gradient-to-b from-white to-gray-200
-  border border-gray-300
-  rounded-md
-  shadow-sm
-  text-gray-700 text-sm font-bold uppercase
-  hover:from-gray-100 hover:to-gray-300
-  active:from-gray-300 active:to-gray-200
-  active:shadow-inner
-  transition duration-150 ease-in-out
-'
+    px-8 py-2
+    bg-gradient-to-b from-[#f3f3f3] to-[#d7d7d7]
+    border border-[#a0a0a0]
+    rounded-md
+    shadow-sm
+    text-[#636363] text-base font-bold uppercase
+    hover:from-[#e8e8e8] hover:to-[#cccccc]
+    active:from-[#d0d0d0] active:to-[#b8b8b8]
+    active:shadow-inner
+    transition duration-150 ease-in-out
+  '
           >
             CHECKOUT
           </button>
@@ -78,26 +115,47 @@ const BikeTable = () => {
         <table className='w-full table-auto'>
           <thead>
             <tr className='bg-gradient-to-r from-purple-600 to-indigo-600 text-white'>
-              <th className='px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider'>
-                Make
+              <th
+                className='px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider cursor-pointer'
+                onClick={() => requestSort("Make")}
+              >
+                Make {getSortDirection("Make")}
               </th>
-              <th className='px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider'>
-                Model
+              <th
+                className='px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider cursor-pointer'
+                onClick={() => requestSort("Model")}
+              >
+                Model {getSortDirection("Model")}
               </th>
-              <th className='px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider'>
-                Year
+              <th
+                className='px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider cursor-pointer'
+                onClick={() => requestSort("Year")}
+              >
+                Year {getSortDirection("Year")}
               </th>
-              <th className='px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider'>
-                Displacement
+              <th
+                className='px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider cursor-pointer'
+                onClick={() => requestSort("Displacement")}
+              >
+                Displacement {getSortDirection("Displacement")}
               </th>
-              <th className='px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider'>
-                Terrain
+              <th
+                className='px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider cursor-pointer'
+                onClick={() => requestSort("Terrain")}
+              >
+                Terrain {getSortDirection("Terrain")}
               </th>
-              <th className='px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider'>
-                Price
+              <th
+                className='px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider cursor-pointer'
+                onClick={() => requestSort("Price")}
+              >
+                Price {getSortDirection("Price")}
               </th>
-              <th className='px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider'>
-                Description
+              <th
+                className='px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider cursor-pointer'
+                onClick={() => requestSort("Description")}
+              >
+                Description {getSortDirection("Description")}
               </th>
             </tr>
           </thead>

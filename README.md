@@ -1,30 +1,38 @@
-# React + TypeScript + Vite
+# Bikes Table
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Folder Structure
 
-Currently, two official plugins are available:
+src/
+├── components/
+│ └── (React components)
+├── pages/
+│ └── (Page components)
+└── (other folders and files)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Dependencies
 
-## Expanding the ESLint configuration
+This project uses the following npm packages:
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Development Dependencies
 
-- Configure the top-level `parserOptions` property like this:
+- @types/react (^18.3.3): TypeScript definitions for React
+- @types/react-dom (^18.3.0): TypeScript definitions for ReactDOM
+- @typescript-eslint/eslint-plugin (^7.13.1): ESLint plugin for TypeScript
+- @typescript-eslint/parser (^7.13.1): TypeScript parser for ESLint
+- @vitejs/plugin-react (^4.3.1): Vite plugin for React support
+- autoprefixer (^10.4.19): PostCSS plugin to parse CSS and add vendor prefixes
+- eslint (^8.57.0): Linting utility for JavaScript and TypeScript
+- eslint-plugin-react-hooks (^4.6.2): ESLint plugin for React Hooks
+- eslint-plugin-react-refresh (^0.4.7): ESLint plugin for React Refresh
+- postcss (^8.4.39): Tool for transforming CSS with JavaScript
+- tailwindcss (^3.4.4): Utility-first CSS framework
+- typescript (^5.2.2): TypeScript language
+- vite (^5.3.1): Next generation frontend tooling
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+## Setup and Installation
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+1. Clone the repository
+2. Install dependencies:
+   - npm install .
+   - npm run dev
+3. Run the development server:
