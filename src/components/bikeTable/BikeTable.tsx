@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-// import fetchData from "../../api/api";
-import bikjson from "../../bike.json";
+import fetchData from "../../api/api";
 
 export type Bike = {
   BikeID: number;
@@ -21,9 +20,12 @@ const BikeTable = () => {
   useEffect(() => {
     const fetchDataFromAPI = async () => {
       try {
-        // const result = await fetchData(bikjson);
-        setBikes(bikjson);
-        setFilteredBikes(bikjson);
+        const result = await fetchData(
+          "124b459f323c2c1961685e812f22ceef4be58b72/gistfile1.txt"
+        );
+
+        setBikes(result.bikes);
+        setFilteredBikes(result.bikes);
       } catch (err) {
         console.error("Error fetching data:", err);
       }

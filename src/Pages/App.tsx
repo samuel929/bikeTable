@@ -1,5 +1,4 @@
-import "./App.css";
-import BikeTable from "./components/bikeTable/BikeTable";
+import BikeTable from "../components/bikeTable/BikeTable";
 
 function App() {
   return (

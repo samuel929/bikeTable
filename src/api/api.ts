@@ -1,17 +1,13 @@
-import { Bike } from "../components/bikeTable/BikeTable";
 
 
 
-const BASE_URL = 'http://localhost:5174/'; // Replace with your API base URL
+const BASE_URL = 'https://gist.githubusercontent.com/samuel929/bc801f8f49ef0830450f8f4bec464da5/raw/'; // Replace with your API base URL
 
-async function fetchData(endpoint: Bike) {
+async function fetchData(endpoint: string) {
 
     try {
         const response = await fetch(`${BASE_URL}${endpoint}`);
-        console.log(response)
-
         const data = await response.json();
-        console.log(data)
         return data;
     } catch (error) {
         console.error('Error fetching data:', error);
